@@ -1,6 +1,7 @@
-import { readBlogData, writeBlogData } from '../../../utils/blogStore'
+import { readBlogData, requireAdmin, writeBlogData } from '../../../utils/blogStore'
 
 export default defineEventHandler(async (event) => {
+  await requireAdmin(event)
   const id = getRouterParam(event, 'id') || ''
   const data = await readBlogData()
   data.navItems = data.navItems.filter((item) => item.id !== id)

@@ -5,6 +5,7 @@ export const useBlogSettings = () =>
     title: 'Nuxt Blog',
     subtitle: '',
     backgroundImage: '',
+    heroBackgroundImage: '',
     backgroundOverlay: 0.54,
     glassOpacity: 0.68
   }))

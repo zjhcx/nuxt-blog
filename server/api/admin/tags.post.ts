@@ -1,7 +1,8 @@
-import { readBlogData, slugify, uid, upsertById, writeBlogData } from '../../utils/blogStore'
+import { readBlogData, requireAdmin, slugify, uid, upsertById, writeBlogData } from '../../utils/blogStore'
 import type { BlogTag } from '../../../app/types/blog'
 
 export default defineEventHandler(async (event) => {
+  await requireAdmin(event)
   const body = await readBody<Partial<BlogTag>>(event)
   const data = await readBlogData()
   const existing = body.id ? data.tags.find((item) => item.id === body.id) : null

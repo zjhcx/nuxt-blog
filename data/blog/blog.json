@@ -1,1 +1,92 @@
-{"settings":{"title":"Nuxt Blog","subtitle":"SSR, glass navigation, real content management.","backgroundImage":"","backgroundOverlay":0.54,"glassOpacity":0.68},"categories":[{"id":"mofw9n7gfwdqrbi","name":"test","path":"test","description":"测试分类"}],"tags":[{"id":"mofwa78s5an69i4","name":"test","path":"test","description":"测试标签"}],"navItems":[{"id":"home","label":"首页","href":"/","sort":1,"visible":true}],"articles":[{"id":"mofwb0ql4qz8tef","title":"test","path":"test","excerpt":"测试摘要","content":"测试文章","cover":"","categoryPath":"test","tagPaths":[],"status":"published","publishedAt":"2026-04-26T15:00:40.701Z","updatedAt":"2026-04-26T15:00:40.701Z"}],"pages":[]}
+{
+  "settings": {
+    "title": "test title",
+    "subtitle": "SSR, glass navigation, real content management.",
+    "backgroundImage": "",
+    "heroBackgroundImage": "",
+    "backgroundOverlay": 0.54,
+    "glassOpacity": 0.68
+  },
+  "categories": [
+    {
+      "id": "mofw9n7gfwdqrbi",
+      "name": "test",
+      "path": "test",
+      "description": "测试分类"
+    }
+  ],
+  "tags": [
+    {
+      "id": "mofwa78s5an69i4",
+      "name": "test",
+      "path": "test",
+      "description": "测试标签"
+    }
+  ],
+  "navItems": [
+    { "id": "home", "label": "首页", "href": "/", "sort": 1, "visible": true },
+    {
+      "id": "mogh1d7wthhygmq",
+      "label": "post test",
+      "href": "/p/test",
+      "sort": 2,
+      "visible": true
+    }
+  ],
+  "articles": [
+    {
+      "id": "mofwb0ql4qz8tef",
+      "title": "test",
+      "path": "test",
+      "excerpt": "测试摘要",
+      "content": "测试文章",
+      "cover": "",
+      "categoryPath": "test",
+      "tagPaths": [],
+      "status": "published",
+      "publishedAt": "2026-04-26T15:00:40.701Z",
+      "updatedAt": "2026-04-26T15:00:40.701Z",
+      "views": 15
+    }
+  ],
+  "pages": [
+    {
+      "id": "moghf7d0qpx92yh",
+      "title": "test",
+      "path": "test",
+      "content": "test",
+      "views": 1,
+      "updatedAt": "2026-04-27T00:51:47.844Z"
+    }
+  ],
+  "comments": [
+    {
+      "id": "mogh0n9rdqo9oc8",
+      "targetType": "article",
+      "targetId": "mofwb0ql4qz8tef",
+      "authorName": "test",
+      "content": "114514",
+      "status": "approved",
+      "createdAt": "2026-04-27T00:40:28.623Z"
+    },
+    {
+      "id": "mog04h3hi9qm09b",
+      "targetType": "article",
+      "targetId": "mofwb0ql4qz8tef",
+      "authorName": "访客",
+      "content": "1111",
+      "status": "approved",
+      "createdAt": "2026-04-26T16:47:33.773Z"
+    }
+  ],
+  "users": [
+    {
+      "id": "admin",
+      "username": "admin",
+      "displayName": "Administrator",
+      "passwordHash": "240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9",
+      "role": "admin",
+      "createdAt": "2026-04-26T00:00:00.000Z"
+    }
+  ]
+}

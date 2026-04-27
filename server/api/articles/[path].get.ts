@@ -1,4 +1,4 @@
-import { publicArticle, readBlogData } from '../../utils/blogStore'
+import { publicArticle, readBlogData, writeBlogData } from '../../utils/blogStore'
 
 export default defineEventHandler(async (event) => {
   const path = decodeURIComponent(getRouterParam(event, 'path') || '')
@@ -7,6 +7,8 @@ export default defineEventHandler(async (event) => {
   if (!article) {
     throw createError({ statusCode: 404, statusMessage: 'Article not found' })
   }
+  article.views = Number(article.views || 0) + 1
+  await writeBlogData(data)
   return {
     article,
     category: data.categories.find((item) => item.path === article.categoryPath) || null,

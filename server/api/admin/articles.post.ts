@@ -1,7 +1,8 @@
-import { nowIso, readBlogData, slugify, uid, upsertById, writeBlogData } from '../../utils/blogStore'
+import { nowIso, readBlogData, requireAdmin, slugify, uid, upsertById, writeBlogData } from '../../utils/blogStore'
 import type { BlogArticle } from '../../../app/types/blog'
 
 export default defineEventHandler(async (event) => {
+  await requireAdmin(event)
   const body = await readBody<Partial<BlogArticle>>(event)
   const data = await readBlogData()
   const existing = body.id ? data.articles.find((item) => item.id === body.id) : null
@@ -18,6 +19,8 @@ export default defineEventHandler(async (event) => {
     categoryPath: String(body.categoryPath ?? existing?.categoryPath ?? ''),
     tagPaths: Array.isArray(body.tagPaths) ? body.tagPaths.map(String) : existing?.tagPaths || [],
     status: body.status === 'draft' ? 'draft' : 'published',
+    views: Number(body.views ?? existing?.views ?? 0),
+    deletedAt: body.deletedAt || existing?.deletedAt || undefined,
     publishedAt: String(body.publishedAt || existing?.publishedAt || date),
     updatedAt: date
   }

@@ -1,7 +1,8 @@
-import { readBlogData, uid, upsertById, writeBlogData } from '../../utils/blogStore'
+import { readBlogData, requireAdmin, uid, upsertById, writeBlogData } from '../../utils/blogStore'
 import type { BlogNavItem } from '../../../app/types/blog'
 
 export default defineEventHandler(async (event) => {
+  await requireAdmin(event)
   const body = await readBody<Partial<BlogNavItem>>(event)
   const data = await readBlogData()
   const existing = body.id ? data.navItems.find((item) => item.id === body.id) : null

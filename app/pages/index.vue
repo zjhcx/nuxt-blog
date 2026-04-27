@@ -1,16 +1,23 @@
 <script setup lang="ts">
-import { LoaderCircle, Search } from 'lucide-vue-next'
+import { LoaderCircle } from 'lucide-vue-next'
 import type { BlogArticle, BlogCategory, BlogTag } from '~/types/blog'
 
-const settings = useBlogSettings()
+type BlogSummary = {
+  articles: BlogArticle[]
+  categories: Array<BlogCategory & { count: number }>
+  tags: Array<BlogTag & { count: number }>
+}
+
 const page = ref(1)
 const pageSize = 6
-const keyword = ref('')
+const route = useRoute()
+const keyword = ref(String(route.query.q || ''))
 const articles = ref<BlogArticle[]>([])
 const total = ref(0)
 
 const { data: categories } = await useFetch<BlogCategory[]>('/api/categories')
 const { data: tags } = await useFetch<BlogTag[]>('/api/tags')
+const { data: summary } = await useFetch<BlogSummary>('/api/summary')
 
 const loadArticles = async (reset = false) => {
   if (reset) {
@@ -26,6 +33,11 @@ const loadArticles = async (reset = false) => {
 
 await loadArticles(true)
 
+watch(() => route.query.q, async (value) => {
+  keyword.value = String(value || '')
+  await loadArticles(true)
+})
+
 const canLoadMore = computed(() => articles.value.length < total.value)
 const loadMore = async () => {
   page.value += 1
@@ -34,26 +46,35 @@ const loadMore = async () => {
 </script>
 
 <template>
-  <section class="container hero">
-    <h1>{{ settings.title }}</h1>
-    <p>{{ settings.subtitle }}</p>
-  </section>
+  <SiteHero />
 
-  <section class="container stack">
-    <div class="panel glass">
-      <label class="field">
-        <span>搜索文章</span>
-        <span style="display:flex; gap:10px;">
-          <input v-model="keyword" class="input" type="search" placeholder="标题、摘要或正文" @keyup.enter="loadArticles(true)">
-          <button class="btn" type="button" @click="loadArticles(true)"><Search :size="17" /> 搜索</button>
-        </span>
-      </label>
+  <section class="section-band">
+    <div class="content-container">
+      <div class="layout-main">
+        <nav class="category-tabs" aria-label="分类">
+          <NuxtLink :class="{ active: !keyword }" to="/">全部</NuxtLink>
+          <NuxtLink v-for="category in categories || []" :key="category.id" :to="`/c/${encodeURIComponent(category.path)}`">
+            {{ category.name }}
+          </NuxtLink>
+        </nav>
+
+        <div v-if="keyword" class="archive-panel panel">
+          <h1>搜索：{{ keyword }}</h1>
+          <p>找到 {{ total }} 篇相关文章。</p>
+        </div>
+
+        <ArticleGrid :articles="articles" :categories="categories || []" :tags="tags || []" />
+
+        <button v-if="canLoadMore" class="btn primary" type="button" style="margin-top: 24px;" @click="loadMore">
+          <LoaderCircle :size="17" /> 加载更多
+        </button>
+      </div>
+
+      <BlogSidebar
+        :articles="summary?.articles || []"
+        :categories="summary?.categories || []"
+        :tags="summary?.tags || []"
+      />
     </div>
-
-    <ArticleGrid :articles="articles" :categories="categories || []" :tags="tags || []" />
-
-    <button v-if="canLoadMore" class="btn primary" type="button" @click="loadMore">
-      <LoaderCircle :size="17" /> 加载更多
-    </button>
   </section>
 </template>

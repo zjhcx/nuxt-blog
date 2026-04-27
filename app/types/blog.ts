@@ -1,9 +1,11 @@
 export type BlogStatus = 'draft' | 'published'
+export type CommentStatus = 'pending' | 'approved'
 
 export interface BlogSettings {
   title: string
   subtitle: string
   backgroundImage: string
+  heroBackgroundImage: string
   backgroundOverlay: number
   glassOpacity: number
 }
@@ -40,6 +42,8 @@ export interface BlogArticle {
   categoryPath: string
   tagPaths: string[]
   status: BlogStatus
+  views: number
+  deletedAt?: string
   publishedAt: string
   updatedAt: string
 }
@@ -49,7 +53,28 @@ export interface BlogPage {
   title: string
   path: string
   content: string
+  views: number
+  deletedAt?: string
   updatedAt: string
+}
+
+export interface BlogComment {
+  id: string
+  targetType: 'article' | 'page'
+  targetId: string
+  authorName: string
+  content: string
+  status: CommentStatus
+  createdAt: string
+}
+
+export interface BlogUser {
+  id: string
+  username: string
+  displayName: string
+  passwordHash: string
+  role: 'admin'
+  createdAt: string
 }
 
 export interface BlogData {
@@ -59,4 +84,6 @@ export interface BlogData {
   navItems: BlogNavItem[]
   articles: BlogArticle[]
   pages: BlogPage[]
+  comments: BlogComment[]
+  users: BlogUser[]
 }
